@@ -1,0 +1,106 @@
+.content {
+  max-width: 960px;
+  margin: 0 auto;
+
+  .headerCards {
+    display: flex;
+    justify-content: space-between;
+    margin: 40px 0;
+
+    .title {
+      font-size: 32px;
+      line-height: 39px;
+    }
+
+    .search {
+      width: 250px;
+      height: 45px;
+      border: 1px solid #F3F3F3;
+      border-radius: 10px;
+      color: #C4C4C4;
+      padding: 15px;
+
+      .searchImg {
+        width: 14.25px;
+        height: 14.25px;
+      }
+
+      .searchInput {
+        width: 180px;
+        padding-left: 15px;
+      }
+    }
+  }
+
+  .cards {
+    display: flex;
+    justify-content: space-between;
+
+    .card {
+      border: 1px solid #F3F3F3;
+      border-radius: 40px;
+      width: 210px;
+      height: 260px;
+      transistion: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+
+      &:hover {
+        box-shadow: 0px 20px 35px rgba(0, 0, 0, 0.06);
+        transform: translateY(-5px);
+      }
+    }
+
+    .liked {
+      display: block;
+      position: absolute;
+      margin: 30px;
+      cursor: pointer;
+      opacity: 0.5;
+      &:hover{
+        opacity: 1;
+      }
+    }
+
+    .cardImg {
+      width: 133px;
+      height: 112px;
+      margin: 20px auto;
+      display: block;
+
+    }
+
+    .cardText {
+      width: 150px;
+      height: 34px;
+      margin: 0 auto;
+      line-height: 17px;
+      font-size: 13px;
+    }
+
+    .cardFooter {
+      width: 150px;
+      margin: 14px auto;
+      color: #BDBDBD;
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      line-height: 13px;
+
+      .numbers {
+        font-size: 14px;
+        line-height: 17px;
+        color: black;
+      }
+
+      img {
+        width: 32px;
+        height: 32px;
+        display: block;
+        cursor: pointer;
+        opacity: 0.5;
+        &:hover{
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
