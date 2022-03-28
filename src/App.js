@@ -7,7 +7,7 @@ function App() {
     return (
         <div className={s.App}>
             <div className={s.wrapper}>
-                <Aside />
+                {/*<Aside />*/}
                 <Header/>
                 <Market/>
             </div>
