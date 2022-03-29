@@ -1,16 +1,18 @@
 import s from "./Aside.module.scss";
 import CartItem from './CartItem'
 
-function Aside() {
+function Aside({onAsideClosed, items=[]}) {
     return (
         <div className={s.overlay}>
             <div className={s.drawer}>
                 <h2 className={s.drawer__title}>
-                    Корзина
+                    <p>Корзина</p>
+                    <img onClick={onAsideClosed} src="./img/cross.png" alt="cross"/>
                 </h2>
                 <div className={s.cartItems}>
-                    <CartItem/>
-                    <CartItem/>
+                    {items.map((item) => (
+                        <CartItem name={item.name} price={item.price} imgSrc={item.imgSrc}/>
+                    ))}
                 </div>
                 <div className={s.drawerFooter}>
                     <div className={s.summ}>

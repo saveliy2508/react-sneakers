@@ -60,6 +60,12 @@
     font-weight: 700;
     padding-top: 30px;
     padding-left: 30px;
+    display: flex;
+    justify-content: space-between;
+    img{
+      cursor: pointer;
+      margin-right: 15px;
+    }
   }
 
   .cartItems {
