@@ -12,7 +12,7 @@ function Header(props){
         </div>
         <div className={s.headerRight}>
             <img onClick={props.onAsideOpened} src='./img/basket.svg' className={s.group}/>
-            <p className={s.summ}>1205 руб.</p>
+            <p onClick={props.onAsideOpened} className={s.summ}>1205 руб.</p>
             <img src='./img/headerLike.svg' className={s.heart}/>
             <img src='./img/headerProfile.svg' className={s.man}/>
         </div>
