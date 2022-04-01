@@ -14,7 +14,7 @@ function Aside({onAsideClosed, items = [], onDeleteCartItem}) {
                     <div>
                         <div className={s.cartItems}>
                             {items.map((item) => (
-                                <CartItem id={item.id} onDeleteCartItem={() => onDeleteCartItem(item.id)}
+                                <CartItem id={item.id} onDeleteCartItem={() => onDeleteCartItem(item.index)}
                                           name={item.name} price={item.price} imgSrc={item.imgSrc}/>
                             ))}
                         </div>

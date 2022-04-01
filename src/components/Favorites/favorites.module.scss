@@ -2,46 +2,16 @@
   max-width: 960px;
   margin: 0 auto;
 
-  .headerCards {
-    display: flex;
-    justify-content: space-between;
-    margin: 40px 0;
-
-    .title {
-      font-size: 32px;
-      line-height: 39px;
-    }
-
-    .search {
-      width: 250px;
-      height: 45px;
-      border: 1px solid #F3F3F3;
-      border-radius: 10px;
-      color: #C4C4C4;
-      padding: 15px;
-
-      .searchImg {
-        width: 14.25px;
-        height: 14.25px;
-      }
-      .crossImg {
-        width: 14.25px;
-        height: 14.25px;
-        position: relative;
-        left: 10px;
-        cursor: pointer;;
-      }
-
-      .searchInput {
-        width: 180px;
-        padding-left: 15px;
-      }
-    }
+  .title {
+    font-size: 32px;
+    line-height: 39px;
+    margin-top: 30px;
   }
 
   .cards {
     display: flex;
     flex-wrap: wrap;
+
     .card {
       border: 1px solid #F3F3F3;
       border-radius: 40px;

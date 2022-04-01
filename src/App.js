@@ -1,10 +1,11 @@
 import React from "react";
 import s from './index.module.scss';
 import Header from './components/Header/Header'
-import Market from './components/content/Market'
+import Home from './components/Home/Home'
 import Aside from "./components/Aside/Aside";
+import Favorites from './components/Favorites/Favorites'
 import axios from "axios";
-import {Link, Route, Routes} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 
 function App() {
     const [items, setItems] = React.useState([])
@@ -13,33 +14,51 @@ function App() {
 
     const [cartItems, setCartItems] = React.useState([])
 
+    const [favoritesItems, setFavoritesItems] = React.useState([])
+
     const [searchValue, setSearchValue] = React.useState('')
+
     const onChangeSearchInput = (event) => {
         setSearchValue(event.target.value)
     }
+
     const onDeleteSearch = () => {
         setSearchValue('')
     }
 
-    const onDeleteCartItem = (id) => {
-        axios.delete(`https://6242deadd126926d0c58b871.mockapi.io/cart/${id}`)
-        setCartItems((prev) => prev.filter(item => item.id != id))
+    const onDeleteCartItem = (index) => {
+        axios.delete(`https://6242deadd126926d0c58b871.mockapi.io/cart/${index}`)
+        setCartItems((prev) => prev.filter(item => item.index != index))
     }
 
     const onAddToCart = (obj) => {
-        if (!cartItems.some((i) => i.name === obj.name)) {
+        if (!cartItems.find((i) => i.name === obj.name)) {
             setCartItems((prev) => [...prev, obj])
             axios.post('https://6242deadd126926d0c58b871.mockapi.io/cart', obj)
+        } else {
+            let id = cartItems.find(i => i.id == obj.id).index;
+            setCartItems((prev) => prev.filter(item => item.name != obj.name))
+            axios.delete(`https://6242deadd126926d0c58b871.mockapi.io/cart/${id}`)
         }
-        console.log(obj.id)
-        // if(cartItems.find(obj => obj.id == id)) {
-        //     setCartItems((prev) => prev.filter(item => item.name != obj.name))
-        //     axios.delete(`https://6242deadd126926d0c58b871.mockapi.io/cart/${obj.id}`)
-        // }
     }
+
+    const onAddToFavorites = (obj) => {
+        if (!favoritesItems.some((i) => i.name === obj.name)) {
+            setFavoritesItems((prev) => [...prev, obj])
+            axios.post('https://6242deadd126926d0c58b871.mockapi.io/favorites', obj)
+        }
+    }
+
     React.useEffect(() => {
         axios.get('https://6242deadd126926d0c58b871.mockapi.io/items')
             .then(res => setItems(res.data))
+        axios.get('https://6242deadd126926d0c58b871.mockapi.io/cart')
+            .then(res => setCartItems(res.data))
+        axios.get('https://6242deadd126926d0c58b871.mockapi.io/favorites')
+            .then(res => setFavoritesItems(res.data))
+    }, []);
+
+    React.useEffect(() => {
         axios.get('https://6242deadd126926d0c58b871.mockapi.io/cart')
             .then(res => setCartItems(res.data))
     }, [asideOpened]);
@@ -47,20 +66,38 @@ function App() {
     return (
         <div className={s.App}>
             <div className={s.wrapper}>
-                <Header onAsideOpened={() => setAsideOpened(true)}/>
                 {asideOpened ? <Aside
                     items={cartItems}
                     onAsideClosed={() => setAsideOpened(false)}
                     onDeleteCartItem={onDeleteCartItem}
                 /> : null}
-                <Market
-                    onDeleteSearch={onDeleteSearch}
-                    onChangeSearchInput={onChangeSearchInput}
-                    searchValue={searchValue}
-                    onAddToCart={onAddToCart}
-                    items={items}
-                    setCartItems={() => setCartItems()}
-                />}
+
+                <Header onAsideOpened={() => setAsideOpened(true)}/>
+
+                <Routes>
+
+                    <Route path='/' element={
+                        <Home
+                            onDeleteSearch={onDeleteSearch}
+                            onChangeSearchInput={onChangeSearchInput}
+                            searchValue={searchValue}
+                            onAddToCart={onAddToCart}
+                            items={items}
+                            setCartItems={() => setCartItems()}
+                            setFavoritesItems={() => setFavoritesItems()}
+                            onAddToFavorites={onAddToFavorites}
+                        />
+                    }/>
+
+                    <Route path='/favorites' element={
+                        <Favorites
+                            onAddToFavorites={onAddToFavorites}
+                            items={favoritesItems}
+                            setFavoritesItems={() => setFavoritesItems()}
+                        />}
+                    />
+
+                </Routes>
             </div>
         </div>
     );

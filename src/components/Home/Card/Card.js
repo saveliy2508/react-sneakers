@@ -1,16 +1,17 @@
 import React from "react";
-import s from "../market.module.scss";
+import s from "../home.module.scss";
 
-function Card({name, price, imgSrc, getObj, onPlus}) {
+function Card({id, name, price, imgSrc, getObj, onPlus, onLike}) {
     const [addBtn, setAddBtn] = React.useState(false);
     const onPlusClick = () => {
         setAddBtn(!addBtn);
-        onPlus({name, price, imgSrc});
+        onPlus({id, name, price, imgSrc});
     }
 
     const [addLike, setAddLike] = React.useState(false);
     const onLikeClick = () => {
         setAddLike(!addLike);
+        onLike({name, price, imgSrc});
     }
 
     return (

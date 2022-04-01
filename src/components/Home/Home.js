@@ -1,8 +1,7 @@
-import s from "./market.module.scss";
+import s from "./home.module.scss";
 import Card from './Card/Card'
 
-function Market(props) {
-    const crossClass = s.searchImg + '' + s.crossImg;
+function Home(props) {
     return (
         <div className={s.content}>
             <div className={s.headerCards}>
@@ -23,8 +22,10 @@ function Market(props) {
                             name={item.name}
                             price={item.price}
                             imgSrc={item.imgSrc}
+                            id={item.id}
                             getObj={item}
-                            onPlus={(obj) => props.onAddToCart(obj)}/>
+                            onPlus={(obj) => props.onAddToCart(obj)}
+                            onLike={(obj) => props.onAddToFavorites(obj)}/>
                     )
                 )}
             </div>
@@ -32,4 +33,4 @@ function Market(props) {
     )
 }
 
-export default Market;
+export default Home;
