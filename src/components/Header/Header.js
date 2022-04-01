@@ -16,7 +16,8 @@ function Header(props) {
             <div className={s.headerRight}>
                 <img onClick={props.onAsideOpened} src='./img/basket.svg' className={s.group}/>
                 <p onClick={props.onAsideOpened} className={s.summ}>1205 руб.</p>
-                <NavLink to='/favorites'><img src='./img/headerLike.svg' className={s.heart}/></NavLink>
+                <NavLink to='/favorites'><img src='./img/headerLike.svg' className={s.heart}
+                                              onClick={()=>props.setFavoritesOpened(!props.favoritesOpened)}/></NavLink>
                 <img src='./img/headerProfile.svg' className={s.man}/>
             </div>
         </header>

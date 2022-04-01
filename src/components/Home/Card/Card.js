@@ -11,7 +11,7 @@ function Card({id, name, price, imgSrc, getObj, onPlus, onLike}) {
     const [addLike, setAddLike] = React.useState(false);
     const onLikeClick = () => {
         setAddLike(!addLike);
-        onLike({name, price, imgSrc});
+        onLike({id, name, price, imgSrc});
     }
 
     return (

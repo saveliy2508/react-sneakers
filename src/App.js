@@ -12,6 +12,8 @@ function App() {
 
     const [asideOpened, setAsideOpened] = React.useState(false);
 
+    const [favoritesOpened, setFavoritesOpened] = React.useState();
+
     const [cartItems, setCartItems] = React.useState([])
 
     const [favoritesItems, setFavoritesItems] = React.useState([])
@@ -32,20 +34,24 @@ function App() {
     }
 
     const onAddToCart = (obj) => {
-        if (!cartItems.find((i) => i.name === obj.name)) {
+        if (cartItems.find((i) => i.name === obj.name)) {
+            let index = cartItems.find(i => i.id == obj.id).index;
+            setCartItems((prev) => prev.filter(item => item.name != obj.name))
+            axios.delete(`https://6242deadd126926d0c58b871.mockapi.io/cart/${index}`)
+        } else {
             setCartItems((prev) => [...prev, obj])
             axios.post('https://6242deadd126926d0c58b871.mockapi.io/cart', obj)
-        } else {
-            let id = cartItems.find(i => i.id == obj.id).index;
-            setCartItems((prev) => prev.filter(item => item.name != obj.name))
-            axios.delete(`https://6242deadd126926d0c58b871.mockapi.io/cart/${id}`)
         }
     }
 
     const onAddToFavorites = (obj) => {
-        if (!favoritesItems.some((i) => i.name === obj.name)) {
+        if (!favoritesItems.find((i) => i.name === obj.name)) {
             setFavoritesItems((prev) => [...prev, obj])
             axios.post('https://6242deadd126926d0c58b871.mockapi.io/favorites', obj)
+        } else {
+            let index = favoritesItems.find(i => i.id == obj.id).index;
+            axios.delete(`https://6242deadd126926d0c58b871.mockapi.io/favorites/${index}`)
+            setFavoritesItems((prev) => prev.filter(item => item.name != obj.name))
         }
     }
 
@@ -63,6 +69,11 @@ function App() {
             .then(res => setCartItems(res.data))
     }, [asideOpened]);
 
+    React.useEffect(() => {
+        axios.get('https://6242deadd126926d0c58b871.mockapi.io/favorites')
+            .then(res => setFavoritesItems(res.data))
+    }, [favoritesOpened]);
+
     return (
         <div className={s.App}>
             <div className={s.wrapper}>
@@ -72,7 +83,11 @@ function App() {
                     onDeleteCartItem={onDeleteCartItem}
                 /> : null}
 
-                <Header onAsideOpened={() => setAsideOpened(true)}/>
+                <Header
+                    onAsideOpened={() => setAsideOpened(true)}
+                    setFavoritesOpened={setFavoritesOpened}
+                    favoritesOpened={favoritesOpened}
+                />
 
                 <Routes>
 
@@ -91,6 +106,8 @@ function App() {
 
                     <Route path='/favorites' element={
                         <Favorites
+                            onAddToCart={onAddToCart}
+                            setCartItems={() => setCartItems()}
                             onAddToFavorites={onAddToFavorites}
                             items={favoritesItems}
                             setFavoritesItems={() => setFavoritesItems()}

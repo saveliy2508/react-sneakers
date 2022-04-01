@@ -1,6 +1,42 @@
 .content {
   max-width: 960px;
   margin: 0 auto;
+  min-height: 65vh;
+
+  .ifEmpty {
+    padding-top: 50px;
+    text-align: center;
+    .smile{
+      width: 70px;
+      height: 70px;
+    }
+    .favTitle {
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 29px;
+      padding: 24px 0 11px 0;
+    }
+    .favText {
+      opacity: 0.4;
+      font-size: 16px;
+      line-height: 19px;
+    }
+    button{
+      margin-top: 70px;
+      width: 245px;
+      height: 55px;
+      background: #9DD458;
+      border-radius: 18px;
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 19px;
+      img{
+        padding-right: 20px;
+        padding-top: 3px;
+      }
+    }
+  }
 
   .title {
     font-size: 32px;
