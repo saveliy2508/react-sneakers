@@ -3,11 +3,10 @@ import Card from '../Home/Card/Card'
 import {Link} from 'react-router-dom'
 
 function Favorites(props) {
-    debugger
     return (
         <div className={s.content}>
             {props.items.length > 0 ? (
-                <div>
+                <>
                     <div className={s.headerCards}>
                         <h1 className={s.title}>Избранное</h1>
                     </div>
@@ -16,6 +15,7 @@ function Favorites(props) {
                             .map((item, index) =>
                                 (
                                     <Card
+                                        favorited={true}
                                         key={index}
                                         name={item.name}
                                         price={item.price}
@@ -27,7 +27,7 @@ function Favorites(props) {
                                 )
                             )}
                     </div>
-                </div>
+                </>
             ) : (
                 <div className={s.ifEmpty}>
                     <img className={s.smile} src="./img/smile.svg" alt="smile"/>

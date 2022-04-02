@@ -1,14 +1,14 @@
 import React from "react";
 import s from "../home.module.scss";
 
-function Card({id, name, price, imgSrc, getObj, onPlus, onLike}) {
-    const [addBtn, setAddBtn] = React.useState(false);
+function Card({id, name, price, imgSrc, getObj, onPlus, onLike, favorited=false, added=false}) {
+    const [addBtn, setAddBtn] = React.useState(added);
     const onPlusClick = () => {
         setAddBtn(!addBtn);
         onPlus({id, name, price, imgSrc});
     }
 
-    const [addLike, setAddLike] = React.useState(false);
+    const [addLike, setAddLike] = React.useState(favorited);
     const onLikeClick = () => {
         setAddLike(!addLike);
         onLike({id, name, price, imgSrc});
