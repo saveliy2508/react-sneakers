@@ -1,5 +1,6 @@
 import React from "react";
 import s from "../home.module.scss";
+import AppContext from '../../../context'
 
 function Card({id, name, price, imgSrc, getObj, onPlus, onLike, favorited=false, added=false}) {
     const [addBtn, setAddBtn] = React.useState(added);
@@ -14,6 +15,8 @@ function Card({id, name, price, imgSrc, getObj, onPlus, onLike, favorited=false,
         onLike({id, name, price, imgSrc});
     }
 
+    const {isItemAdded} = React.useContext(AppContext);
+
     return (
         <div className={s.card}>
             <img className={s.liked} onClick={onLikeClick} src={addLike ? './img/liked.svg' : './img/notLiked.svg'} alt='Like'/>
@@ -26,7 +29,7 @@ function Card({id, name, price, imgSrc, getObj, onPlus, onLike, favorited=false,
                     <p className={s.price}>ЦЕНА:</p>
                     <p className={s.numbers}>{`${price} руб.`}</p>
                 </div>
-                <img onClick={onPlusClick} src={addBtn ? './img/added.svg' : './img/notAdded.svg'} alt='Add'/>
+                <img onClick={onPlusClick} src={isItemAdded(id) ? './img/added.svg' : './img/notAdded.svg'} alt='Add'/>
             </div>
         </div>
     )

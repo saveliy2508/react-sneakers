@@ -54,25 +54,6 @@ function Home(props) {
                             )}
                     </>
                 )}
-                {/*                {props.items
-                    .filter((item)=> item.name.toLowerCase().includes(props.searchValue.toLowerCase()))
-                    .map((item, index) =>
-                    (
-                        <Card
-                            added={props.cartItems.some(i=> item.id == i.id)}
-                            favorited={props.favoritesItems.some(i=> item.id == i.id)}
-                            key={index}
-                            name={item.name}
-                            price={item.price}
-                            imgSrc={item.imgSrc}
-                            id={item.id}
-                            getObj={item}
-                            onPlus={(obj) => props.onAddToCart(obj)}
-                            onLike={(obj) => props.onAddToFavorites(obj)}
-                            isLoading={false}
-                            />
-                    )
-                )}*/}
             </div>
         </div>
     )

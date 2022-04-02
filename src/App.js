@@ -6,6 +6,7 @@ import Aside from "./components/Aside/Aside";
 import Favorites from './components/Favorites/Favorites'
 import axios from "axios";
 import {Route, Routes} from "react-router-dom";
+import AppContext from './context'
 
 function App() {
     const [items, setItems] = React.useState([])
@@ -69,6 +70,7 @@ function App() {
             setFavoritesItems(favoritesResponce.data)
             setItems(itemResponce.data)
         }
+
         fetchData()
     }, []);
 
@@ -82,53 +84,59 @@ function App() {
             .then(res => setFavoritesItems(res.data))
     }, [favoritesOpened]);
 
+    const isItemAdded = (id) => {
+        return cartItems.some((obj) => obj.id == id)
+    }
+
     return (
-        <div className={s.App}>
-            <div className={s.wrapper}>
-                {asideOpened ? <Aside
-                    items={cartItems}
-                    onAsideClosed={() => setAsideOpened(false)}
-                    onDeleteCartItem={onDeleteCartItem}
-                /> : null}
+        <AppContext.Provider value={{items, cartItems, favoritesItems, isItemAdded} }>
+            <div className={s.App}>
+                <div className={s.wrapper}>
+                    {asideOpened ? <Aside
+                        items={cartItems}
+                        onAsideClosed={() => setAsideOpened(false)}
+                        onDeleteCartItem={onDeleteCartItem}
+                    /> : null}
 
-                <Header
-                    onAsideOpened={() => setAsideOpened(true)}
-                    setFavoritesOpened={setFavoritesOpened}
-                    favoritesOpened={favoritesOpened}
-                />
-
-                <Routes>
-
-                    <Route path='/' element={
-                        <Home
-                            onDeleteSearch={onDeleteSearch}
-                            onChangeSearchInput={onChangeSearchInput}
-                            searchValue={searchValue}
-                            onAddToCart={onAddToCart}
-                            items={items}
-                            setCartItems={() => setCartItems()}
-                            setFavoritesItems={() => setFavoritesItems()}
-                            onAddToFavorites={onAddToFavorites}
-                            cartItems={cartItems}
-                            favoritesItems={favoritesItems}
-                            isLoading={isLoading}
-                            changeLoading={changeLoading}
-                        />
-                    }/>
-
-                    <Route path='/favorites' element={
-                        <Favorites
-                            onAddToCart={onAddToCart}
-                            setCartItems={() => setCartItems()}
-                            onAddToFavorites={onAddToFavorites}
-                            items={favoritesItems}
-                            setFavoritesItems={() => setFavoritesItems()}
-                        />}
+                    <Header
+                        onAsideOpened={() => setAsideOpened(true)}
+                        setFavoritesOpened={setFavoritesOpened}
+                        favoritesOpened={favoritesOpened}
                     />
 
-                </Routes>
+                    <Routes>
+
+                        <Route path='/' element={
+                            <Home
+                                onDeleteSearch={onDeleteSearch}
+                                onChangeSearchInput={onChangeSearchInput}
+                                searchValue={searchValue}
+                                onAddToCart={onAddToCart}
+                                items={items}
+                                setCartItems={() => setCartItems()}
+                                setFavoritesItems={() => setFavoritesItems()}
+                                onAddToFavorites={onAddToFavorites}
+                                cartItems={cartItems}
+                                favoritesItems={favoritesItems}
+                                isLoading={isLoading}
+                                changeLoading={changeLoading}
+                            />
+                        }/>
+
+                        <Route path='/favorites' element={
+                            <Favorites
+                                onAddToCart={onAddToCart}
+                                setCartItems={() => setCartItems()}
+                                onAddToFavorites={onAddToFavorites}
+                                items={favoritesItems}
+                                setFavoritesItems={() => setFavoritesItems()}
+                            />}
+                        />
+
+                    </Routes>
+                </div>
             </div>
-        </div>
+        </AppContext.Provider>
     );
 }
 
