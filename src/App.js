@@ -23,6 +23,15 @@ function App() {
 
     const [isLoading, changeLoading] = React.useState(true)
 
+    // const [orders, makeOrder] = React.useState([])
+
+    const [madeOrder, changeMadeOrder] = React.useState(false)
+
+    // const onMakeOrder = (obj) => {
+    //     axios.post('https://6242deadd126926d0c58b871.mockapi.io/orders', obj);
+    //     makeOrder((prev) => [...prev, obj]);
+    // }
+
     const onChangeSearchInput = (event) => {
         setSearchValue(event.target.value)
     }
@@ -37,8 +46,8 @@ function App() {
     }
 
     const onAddToCart = (obj) => {
-        if (cartItems.find((i) => i.name === obj.name)) {
-            let index = cartItems.find(i => i.id == obj.id).index;
+        if (cartItems.some((i) => i.name === obj.name)) {
+            let index = cartItems.find(i => i.name == obj.name).index;
             setCartItems((prev) => prev.filter(item => item.name != obj.name))
             axios.delete(`https://6242deadd126926d0c58b871.mockapi.io/cart/${index}`)
         } else {
@@ -96,6 +105,10 @@ function App() {
                         items={cartItems}
                         onAsideClosed={() => setAsideOpened(false)}
                         onDeleteCartItem={onDeleteCartItem}
+                        changeMadeOrder={changeMadeOrder}
+                        setCartItems={setCartItems}
+                        madeOrder={madeOrder}
+                        cartItems={cartItems}
                     /> : null}
 
                     <Header

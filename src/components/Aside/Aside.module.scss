@@ -37,6 +37,11 @@
     font-size: 16px;
     font-weight: 600;
     margin-top: 40px;
+    &:hover{
+      img{
+        transform: translateX(-5px);
+      }
+    }
     img{
       padding-right: 30px;
       padding-top: 3px;
@@ -97,7 +102,21 @@
       margin-top: 10px;
       font-weight: 600;
       color: white;
+      &:disabled {
+        background-color: grey;
 
+        &:hover {
+          cursor: auto;
+          img {
+            transform: translateX(0);
+          }
+        }
+      }
+      &:hover{
+        img{
+          transform: translateX(5px);
+        }
+      }
       img {
         position: relative;
         left: 10px;

@@ -49,6 +49,7 @@ function Home(props) {
                                         onPlus={(obj) => props.onAddToCart(obj)}
                                         onLike={(obj) => props.onAddToFavorites(obj)}
                                         isLoading={false}
+                                        setCartItems={props.setCartItems}
                                     />
                                 )
                             )}
