@@ -1,14 +1,15 @@
 import React from "react";
+
 import s from "../home.module.scss";
 import AppContext from '../../../context'
-import axios from "axios";
 
-function Card({id, name, price, imgSrc, getObj, onPlus, onLike, favorited=false, added=false, setCartItems}) {
+function Card({id, name, price, imgSrc, onPlus, onLike, favorited=false, added=false}) {
     const [addBtn, setAddBtn] = React.useState(added);
     const onPlusClick = () => {
         setAddBtn(!addBtn);
         onPlus({id, name, price, imgSrc});
     }
+
     const [addLike, setAddLike] = React.useState(favorited);
     const onLikeClick = () => {
         setAddLike(!addLike);
@@ -19,7 +20,7 @@ function Card({id, name, price, imgSrc, getObj, onPlus, onLike, favorited=false,
     return (
         <div className={s.card}>
             <img className={s.liked} onClick={onLikeClick} src={addLike ? './img/liked.svg' : './img/notLiked.svg'} alt='Like'/>
-            <img className={s.cardImg} src={imgSrc}/>
+            <img className={s.cardImg} src={imgSrc} alt='sneakerImg'/>
             <div className={s.cardText}>
                 {name}
             </div>

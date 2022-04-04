@@ -1,12 +1,17 @@
 import React from "react";
-import s from './index.module.scss';
+import axios from "axios";
+import {Route, Routes} from "react-router-dom";
+
 import Header from './components/Header/Header'
 import Home from './components/Home/Home'
 import Aside from "./components/Aside/Aside";
 import Favorites from './components/Favorites/Favorites'
-import axios from "axios";
-import {Route, Routes} from "react-router-dom";
+import OrdersPage from './components/OrdersPage/OrdersPage'
+
+import s from './index.module.scss';
 import AppContext from './context'
+
+alert('Доделать orders')
 
 function App() {
     const [items, setItems] = React.useState([])
@@ -23,14 +28,18 @@ function App() {
 
     const [isLoading, changeLoading] = React.useState(true)
 
-    // const [orders, makeOrder] = React.useState([])
+    const [orders, makeOrder] = React.useState([])
 
     const [madeOrder, changeMadeOrder] = React.useState(false)
 
-    // const onMakeOrder = (obj) => {
-    //     axios.post('https://6242deadd126926d0c58b871.mockapi.io/orders', obj);
-    //     makeOrder((prev) => [...prev, obj]);
-    // }
+    const onMakeOrder = async (obj) => {
+        if(orders.length>0) {
+            await axios.delete('https://6242deadd126926d0c58b871.mockapi.io/orders/1', obj);
+        }
+        makeOrder([])
+        makeOrder(obj);
+        await axios.post('https://6242deadd126926d0c58b871.mockapi.io/orders', obj);
+    }
 
     const onChangeSearchInput = (event) => {
         setSearchValue(event.target.value)
@@ -42,52 +51,54 @@ function App() {
 
     const onDeleteCartItem = (index) => {
         axios.delete(`https://6242deadd126926d0c58b871.mockapi.io/cart/${index}`)
-        setCartItems((prev) => prev.filter(item => item.index != index))
+        setCartItems((prev) => prev.filter(item => Number(item.index) !== Number(index)))
     }
 
     const onAddToCart = async (obj) => {
         if (cartItems.some((i) => i.name === obj.name)) {
-            let index = cartItems.find(i => i.name == obj.name).index;
-            setCartItems((prev) => prev.filter(item => item.name != obj.name))
+            let index = cartItems.find(i => i.name === obj.name).index;
+            setCartItems((prev) => prev.filter(item => item.name !== obj.name))
             await axios.delete(`https://6242deadd126926d0c58b871.mockapi.io/cart/${index}`)
         } else {
             setCartItems((prev) => [...prev, obj])
             await axios.post('https://6242deadd126926d0c58b871.mockapi.io/cart', obj)
         }
         async function fetchData() {
-            const cartResponce = await axios.get('https://6242deadd126926d0c58b871.mockapi.io/cart')
-            await setCartItems(cartResponce.data)
+            const cartResponse = await axios.get('https://6242deadd126926d0c58b871.mockapi.io/cart')
+            await setCartItems(cartResponse.data)
         }
-        fetchData()
+        await fetchData()
     }
 
     const onAddToFavorites = async (obj) => {
-        if (!favoritesItems.find((i) => i.name === obj.name)) {
+        if (favoritesItems.some((i) => i.name === obj.name)) {
+            let index = favoritesItems.find(i => Number(i.id) === Number(obj.id)).index;
+            setFavoritesItems((prev) => prev.filter(item => item.name !== obj.name))
+            await axios.delete(`https://6242deadd126926d0c58b871.mockapi.io/favorites/${index}`)
+        } else {
             setFavoritesItems((prev) => [...prev, obj])
             await axios.post('https://6242deadd126926d0c58b871.mockapi.io/favorites', obj)
-        } else {
-            let index = favoritesItems.find(i => i.id == obj.id).index;
-            await axios.delete(`https://6242deadd126926d0c58b871.mockapi.io/favorites/${index}`)
-            setFavoritesItems((prev) => prev.filter(item => item.name != obj.name))
         }
         async function fetchData() {
-            const favoritesResponce = await axios.get('https://6242deadd126926d0c58b871.mockapi.io/favorites')
-            await setFavoritesItems(favoritesResponce.data)
+            const favoritesResponse = await axios.get('https://6242deadd126926d0c58b871.mockapi.io/favorites')
+            await setFavoritesItems(favoritesResponse.data)
         }
-        fetchData()
+        await fetchData()
     }
 
     React.useEffect(() => {
         async function fetchData() {
-            const cartResponce = await axios.get('https://6242deadd126926d0c58b871.mockapi.io/cart')
-            const favoritesResponce = await axios.get('https://6242deadd126926d0c58b871.mockapi.io/favorites')
-            const itemResponce = await axios.get('https://6242deadd126926d0c58b871.mockapi.io/items')
+            const orderResponse = await axios.get('https://6242deadd126926d0c58b871.mockapi.io/orders')
+            const cartResponse = await axios.get('https://6242deadd126926d0c58b871.mockapi.io/cart')
+            const favoritesResponse = await axios.get('https://6242deadd126926d0c58b871.mockapi.io/favorites')
+            const itemResponse = await axios.get('https://6242deadd126926d0c58b871.mockapi.io/items')
 
             changeLoading(false);
 
-            setCartItems(cartResponce.data)
-            setFavoritesItems(favoritesResponce.data)
-            setItems(itemResponce.data)
+            setCartItems(cartResponse.data)
+            setFavoritesItems(favoritesResponse.data)
+            setItems(itemResponse.data)
+            makeOrder(orderResponse.data)
         }
 
         fetchData()
@@ -104,7 +115,7 @@ function App() {
     }, [favoritesOpened]);
 
     const isItemAdded = (id) => {
-        return cartItems.some((obj) => obj.id == id)
+        return cartItems.some((obj) => Number(obj.id) === Number(id))
     }
 
     const totalPrice = cartItems.reduce((sum, obj) => sum += Number(obj.price), 0)
@@ -112,8 +123,11 @@ function App() {
     return (
         <AppContext.Provider value={{
             items,
+            setItems,
             cartItems,
+            setCartItems,
             favoritesItems,
+            setFavoritesItems,
             isItemAdded} }>
             <div className={s.App}>
                 <div className={s.wrapper}>
@@ -126,6 +140,8 @@ function App() {
                         madeOrder={madeOrder}
                         cartItems={cartItems}
                         totalPrice={totalPrice}
+                        onMakeOrder={onMakeOrder}
+                        makeOrder={makeOrder}
                     /> : null}
 
                     <Header
@@ -144,8 +160,8 @@ function App() {
                                 searchValue={searchValue}
                                 onAddToCart={onAddToCart}
                                 items={items}
-                                setCartItems={() => setCartItems()}
-                                setFavoritesItems={() => setFavoritesItems()}
+                                setCartItems={setCartItems}
+                                setFavoritesItems={setFavoritesItems}
                                 onAddToFavorites={onAddToFavorites}
                                 cartItems={cartItems}
                                 favoritesItems={favoritesItems}
@@ -157,12 +173,19 @@ function App() {
                         <Route path='/favorites' element={
                             <Favorites
                                 onAddToCart={onAddToCart}
-                                setCartItems={() => setCartItems()}
+                                setCartItems={setCartItems}
                                 onAddToFavorites={onAddToFavorites}
                                 items={favoritesItems}
-                                setFavoritesItems={() => setFavoritesItems()}
+                                setFavoritesItems={setFavoritesItems}
                             />}
                         />
+
+                        <Route path='/orders' element={
+                            <OrdersPage
+                            orders={orders}
+                            makeOrder={makeOrder}
+                            />
+                        }/>
 
                     </Routes>
                 </div>

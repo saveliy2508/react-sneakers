@@ -1,17 +1,24 @@
+import React from "react";
+import {Link} from 'react-router-dom';
+
+import Card from '../Home/Card/Card';
 import s from "./favorites.module.scss";
-import Card from '../Home/Card/Card'
-import {Link} from 'react-router-dom'
+
+import AppContext from "../../context";
 
 function Favorites(props) {
+    const {
+        favoritesItems
+    } = React.useContext(AppContext)
     return (
         <div className={s.content}>
-            {props.items.length > 0 ? (
+            {favoritesItems.length > 0 ? (
                 <>
                     <div className={s.headerCards}>
                         <h1 className={s.title}>Избранное</h1>
                     </div>
                     <div className={s.cards}>
-                        {props.items
+                        {favoritesItems
                             .map((item, index) =>
                                 (
                                     <Card
@@ -33,7 +40,9 @@ function Favorites(props) {
                     <img className={s.smile} src="./img/smile.svg" alt="smile"/>
                     <p className={s.favTitle}>Закладок нет :(</p>
                     <p className={s.favText}>Вы ничего не добавляли в закладки</p>
-                    <Link to='/'><button><img src="./img/leftArrow.svg" alt=""/>Вернуться назад</button></Link>
+                    <Link to='/'>
+                        <button><img src="./img/leftArrow.svg" alt=""/>Вернуться назад</button>
+                    </Link>
                 </div>
             )}
         </div>

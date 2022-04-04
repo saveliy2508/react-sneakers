@@ -1,6 +1,8 @@
-import s from "./home.module.scss";
-import Card from './Card/Card'
 import ContentLoader from 'react-content-loader'
+
+import Card from './Card/Card'
+
+import s from "./home.module.scss";
 
 function Home(props) {
     let testArr = [...Array(8)];
@@ -9,15 +11,16 @@ function Home(props) {
             <div className={s.headerCards}>
                 <h1 className={s.title}>{props.searchValue ? `Поиск по: ${props.searchValue}` : 'Все кроссовки'}</h1>
                 <div className={s.search}>
-                    <img className={s.searchImg} src='./img/search.svg'/>
+                    <img className={s.searchImg} src='./img/search.svg' alt='search'/>
                     <input maxLength={16} value={props.searchValue} onChange={props.onChangeSearchInput}
                            className={s.searchInput} type="text" placeholder='Поиск...'/>
-                    <img onClick={props.onDeleteSearch} className={s.crossImg} src='./img/cross.png'/>
+                    <img onClick={props.onDeleteSearch} className={s.crossImg} src='./img/cross.png' alt='cross'/>
                 </div>
             </div>
             <div className={s.cards}>
                 {props.isLoading ? (
-                    testArr.map(i => i = <ContentLoader
+                    testArr.map((i, index) => i = <ContentLoader
+                        key={index}
                         speed={2}
                         width={230}
                         height={260}
@@ -38,8 +41,8 @@ function Home(props) {
                             .map((item, index) =>
                                 (
                                     <Card
-                                        added={props.cartItems.some(i => item.id == i.id)}
-                                        favorited={props.favoritesItems.some(i => item.id == i.id)}
+                                        added={props.cartItems.some(i => Number(item.id) === Number(i.id))}
+                                        favorited={props.favoritesItems.some(i => Number(item.id) === Number(i.id))}
                                         key={index}
                                         name={item.name}
                                         price={item.price}

@@ -1,20 +1,29 @@
-import s from "./Aside.module.scss";
-import CartItem from './CartItem'
-import axios from "axios";
 import React from 'react'
+import axios from "axios";
 
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+import CartItem from './CartItem'
 
-function Aside({totalPrice, onAsideClosed, items = [], onDeleteCartItem, changeMadeOrder, madeOrder, setCartItems, cartItems}) {
+import s from "./Aside.module.scss";
+import AppContext from "../../context";
+
+function Aside({totalPrice, onMakeOrder, onAsideClosed, items = [], onDeleteCartItem, changeMadeOrder, madeOrder, makeOrder}) {
+    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+
+    const {setCartItems, cartItems} = React.useContext(AppContext)
+
     const [disabled, changeDisable] = React.useState(false)
-    const onMakeOrder = async () => {
+
+    const onClickOrder = async () => {
         changeDisable(true)
         changeMadeOrder(true)
+        onMakeOrder(cartItems)
         for (let i = 0; i < cartItems.length; i++) {
             const item = cartItems[i]
             await axios.delete(`https://6242deadd126926d0c58b871.mockapi.io/cart/${item.index}`)
             await delay(250)
         }
+            const orderResponse = await axios.get('https://6242deadd126926d0c58b871.mockapi.io/orders')
+            await makeOrder(orderResponse.data)
         changeDisable(false)
         setCartItems([])
     }
@@ -22,7 +31,6 @@ function Aside({totalPrice, onAsideClosed, items = [], onDeleteCartItem, changeM
         onAsideClosed()
         changeMadeOrder(false)
     }
-
 
     return (
         <div className={s.overlay}>
@@ -52,8 +60,8 @@ function Aside({totalPrice, onAsideClosed, items = [], onDeleteCartItem, changeM
                                 <p className={s.text}>Налог 5%: </p>
                                 <p className={s.numbers}><b>{Math.round(totalPrice/100*5)} руб.</b></p>
                             </div>
-                            <button className={s.greenButton} onClick={onMakeOrder} disabled={disabled}>Оформить заказ<img
-                                src='./img/arrow.svg'/></button>
+                            <button className={s.greenButton} onClick={onClickOrder} disabled={disabled}>Оформить заказ<img
+                                src='./img/arrow.svg' alt='Стрелка'/></button>
                         </div>
                     </div>
                 ) : (
