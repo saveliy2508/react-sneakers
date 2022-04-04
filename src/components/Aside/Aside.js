@@ -5,7 +5,7 @@ import React from 'react'
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
-function Aside({onAsideClosed, items = [], onDeleteCartItem, changeMadeOrder, madeOrder, setCartItems, cartItems}) {
+function Aside({totalPrice, onAsideClosed, items = [], onDeleteCartItem, changeMadeOrder, madeOrder, setCartItems, cartItems}) {
     const [disabled, changeDisable] = React.useState(false)
     const onMakeOrder = async () => {
         changeDisable(true)
@@ -46,11 +46,11 @@ function Aside({onAsideClosed, items = [], onDeleteCartItem, changeMadeOrder, ma
                         <div className={s.drawerFooter}>
                             <div className={s.summ}>
                                 <p className={s.text}>Итого: </p>
-                                <p className={s.numbers}><b>21 498 руб. </b></p>
+                                <p className={s.numbers}><b>{totalPrice} руб. </b></p>
                             </div>
                             <div className={s.summ}>
                                 <p className={s.text}>Налог 5%: </p>
-                                <p className={s.numbers}><b>1074 руб.</b></p>
+                                <p className={s.numbers}><b>{Math.round(totalPrice/100*5)} руб.</b></p>
                             </div>
                             <button className={s.greenButton} onClick={onMakeOrder} disabled={disabled}>Оформить заказ<img
                                 src='./img/arrow.svg'/></button>

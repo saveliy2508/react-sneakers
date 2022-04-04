@@ -45,26 +45,36 @@ function App() {
         setCartItems((prev) => prev.filter(item => item.index != index))
     }
 
-    const onAddToCart = (obj) => {
+    const onAddToCart = async (obj) => {
         if (cartItems.some((i) => i.name === obj.name)) {
             let index = cartItems.find(i => i.name == obj.name).index;
             setCartItems((prev) => prev.filter(item => item.name != obj.name))
-            axios.delete(`https://6242deadd126926d0c58b871.mockapi.io/cart/${index}`)
+            await axios.delete(`https://6242deadd126926d0c58b871.mockapi.io/cart/${index}`)
         } else {
             setCartItems((prev) => [...prev, obj])
-            axios.post('https://6242deadd126926d0c58b871.mockapi.io/cart', obj)
+            await axios.post('https://6242deadd126926d0c58b871.mockapi.io/cart', obj)
         }
+        async function fetchData() {
+            const cartResponce = await axios.get('https://6242deadd126926d0c58b871.mockapi.io/cart')
+            await setCartItems(cartResponce.data)
+        }
+        fetchData()
     }
 
-    const onAddToFavorites = (obj) => {
+    const onAddToFavorites = async (obj) => {
         if (!favoritesItems.find((i) => i.name === obj.name)) {
             setFavoritesItems((prev) => [...prev, obj])
-            axios.post('https://6242deadd126926d0c58b871.mockapi.io/favorites', obj)
+            await axios.post('https://6242deadd126926d0c58b871.mockapi.io/favorites', obj)
         } else {
             let index = favoritesItems.find(i => i.id == obj.id).index;
-            axios.delete(`https://6242deadd126926d0c58b871.mockapi.io/favorites/${index}`)
+            await axios.delete(`https://6242deadd126926d0c58b871.mockapi.io/favorites/${index}`)
             setFavoritesItems((prev) => prev.filter(item => item.name != obj.name))
         }
+        async function fetchData() {
+            const favoritesResponce = await axios.get('https://6242deadd126926d0c58b871.mockapi.io/favorites')
+            await setFavoritesItems(favoritesResponce.data)
+        }
+        fetchData()
     }
 
     React.useEffect(() => {
@@ -97,8 +107,14 @@ function App() {
         return cartItems.some((obj) => obj.id == id)
     }
 
+    const totalPrice = cartItems.reduce((sum, obj) => sum += Number(obj.price), 0)
+
     return (
-        <AppContext.Provider value={{items, cartItems, favoritesItems, isItemAdded} }>
+        <AppContext.Provider value={{
+            items,
+            cartItems,
+            favoritesItems,
+            isItemAdded} }>
             <div className={s.App}>
                 <div className={s.wrapper}>
                     {asideOpened ? <Aside
@@ -109,12 +125,14 @@ function App() {
                         setCartItems={setCartItems}
                         madeOrder={madeOrder}
                         cartItems={cartItems}
+                        totalPrice={totalPrice}
                     /> : null}
 
                     <Header
                         onAsideOpened={() => setAsideOpened(true)}
                         setFavoritesOpened={setFavoritesOpened}
                         favoritesOpened={favoritesOpened}
+                        totalPrice={totalPrice}
                     />
 
                     <Routes>
