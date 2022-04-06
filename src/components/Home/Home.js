@@ -11,10 +11,10 @@ function Home(props) {
             <div className={s.headerCards}>
                 <h1 className={s.title}>{props.searchValue ? `Поиск по: ${props.searchValue}` : 'Все кроссовки'}</h1>
                 <div className={s.search}>
-                    <img className={s.searchImg} src='https://saveliy2508.github.io/react-sneakers/img/search.svg' alt='search'/>
+                    <img className={s.searchImg} src='/react-sneakers/img/search.svg' alt='search'/>
                     <input maxLength={16} value={props.searchValue} onChange={props.onChangeSearchInput}
                            className={s.searchInput} type="text" placeholder='Поиск...'/>
-                    <img onClick={props.onDeleteSearch} className={s.crossImg} src='https://saveliy2508.github.io/react-sneakers/img/cross.png' alt='cross'/>
+                    <img onClick={props.onDeleteSearch} className={s.crossImg} src='/react-sneakers/img/cross.png' alt='cross'/>
                 </div>
             </div>
             <div className={s.cards}>

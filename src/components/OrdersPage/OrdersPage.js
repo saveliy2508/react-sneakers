@@ -36,10 +36,10 @@ function OrdersPage(props) {
                 </>
             ) : (
                 <div className={s.ifEmpty}>
-                    <img className={s.smile} src="https://saveliy2508.github.io/react-sneakers/img/smile2.svg" alt="smile"/>
+                    <img className={s.smile} src="/react-sneakers/img/smile2.svg" alt="smile"/>
                     <p className={s.favTitle}>У вас нет заказов</p>
                     <Link to='/'>
-                        <button><img src="https://saveliy2508.github.io/react-sneakers/img/leftArrow.svg" alt=""/>Вернуться назад</button>
+                        <button><img src="/react-sneakers/img/leftArrow.svg" alt=""/>Вернуться назад</button>
                     </Link>
                 </div>
             )}

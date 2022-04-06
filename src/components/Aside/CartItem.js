@@ -8,7 +8,7 @@ function CartItem(props) {
                 <p className={s.cartModel}>{props.name}</p>
                 <p className={s.cartPrice}>{props.price} руб.</p>
             </div>
-            <img className={s.remove} onClick={props.onDeleteCartItem} src="https://saveliy2508.github.io/react-sneakers/img/remove.svg" alt="remove"/>
+            <img className={s.remove} onClick={props.onDeleteCartItem} src="/react-sneakers/img/remove.svg" alt="remove"/>
         </div>
     )
 }
