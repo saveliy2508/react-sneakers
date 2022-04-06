@@ -19,7 +19,7 @@ function Card({id, name, price, imgSrc, onPlus, onLike, favorited=false, added=f
     const {isItemAdded} = React.useContext(AppContext);
     return (
         <div className={s.card}>
-            <img className={s.liked} onClick={onLikeClick} src={addLike ? './img/liked.svg' : './img/notLiked.svg'} alt='Like'/>
+            <img className={s.liked} onClick={onLikeClick} src={addLike ? 'https://saveliy2508.github.io/react-sneakers/img/liked.svg' : 'https://saveliy2508.github.io/react-sneakers/img/notLiked.svg'} alt='Like'/>
             <img className={s.cardImg} src={imgSrc} alt='sneakerImg'/>
             <div className={s.cardText}>
                 {name}
@@ -29,7 +29,7 @@ function Card({id, name, price, imgSrc, onPlus, onLike, favorited=false, added=f
                     <p className={s.price}>ЦЕНА:</p>
                     <p className={s.numbers}>{`${price} руб.`}</p>
                 </div>
-                <img onClick={onPlusClick} src={isItemAdded(id) ? './img/added.svg' : './img/notAdded.svg'} alt='Add'/>
+                <img onClick={onPlusClick} src={isItemAdded(id) ? 'https://saveliy2508.github.io/react-sneakers/img/added.svg' : 'https://saveliy2508.github.io/react-sneakers/img/notAdded.svg'} alt='Add'/>
             </div>
         </div>
     )

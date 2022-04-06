@@ -151,7 +151,7 @@ function App() {
 
                     <Routes>
 
-                        <Route path='/' element={
+                        <Route path='/react-sneakers' element={
                             <Home
                                 onDeleteSearch={onDeleteSearch}
                                 onChangeSearchInput={onChangeSearchInput}
@@ -168,7 +168,7 @@ function App() {
                             />
                         }/>
 
-                        <Route path='/favorites' element={
+                        <Route path='/react-sneakers/favorites' exact element={
                             <Favorites
                                 onAddToCart={onAddToCart}
                                 setCartItems={setCartItems}
@@ -178,7 +178,7 @@ function App() {
                             />}
                         />
 
-                        <Route path='/orders' element={
+                        <Route path='/react-sneakers/orders' element={
                             <OrdersPage
                             orders={orders}
                             makeOrder={makeOrder}
