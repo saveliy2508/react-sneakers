@@ -11,8 +11,6 @@ import OrdersPage from './components/OrdersPage/OrdersPage'
 import s from './index.module.scss';
 import AppContext from './context'
 
-alert('Доделать orders')
-
 function App() {
     const [items, setItems] = React.useState([])
 
