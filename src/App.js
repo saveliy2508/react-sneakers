@@ -151,7 +151,7 @@ function App() {
 
                     <Routes>
 
-                        <Route path='/react-sneakers' element={
+                        <Route path='/*' element={
                             <Home
                                 onDeleteSearch={onDeleteSearch}
                                 onChangeSearchInput={onChangeSearchInput}
