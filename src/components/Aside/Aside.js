@@ -19,10 +19,10 @@ function Aside({totalPrice, onMakeOrder, onAsideClosed, items = [], onDeleteCart
         onMakeOrder(cartItems)
         for (let i = 0; i < cartItems.length; i++) {
             const item = cartItems[i]
-            await axios.delete(`https://6242deadd126926d0c58b871.mockapi.io/cart/${item.index}`)
+            await axios.delete(`https://625dee41d434c6001c5456d8.mockapi.io/cart/${item.index}`)
             await delay(250)
         }
-            const orderResponse = await axios.get('https://6242deadd126926d0c58b871.mockapi.io/orders')
+            const orderResponse = await axios.get('https://625dee41d434c6001c5456d8.mockapi.io/orders')
             await makeOrder(orderResponse.data)
         changeDisable(false)
         setCartItems([])
