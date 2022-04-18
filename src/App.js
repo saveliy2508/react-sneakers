@@ -12,6 +12,7 @@ import s from './index.module.scss';
 import AppContext from './context'
 
 function App() {
+
     const [items, setItems] = React.useState([])
 
     const [asideOpened, setAsideOpened] = React.useState(false);
